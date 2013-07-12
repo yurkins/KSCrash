@@ -375,10 +375,8 @@
     if([filename rangeOfString:prefix].location == 0 &&
        [filename rangeOfString:suffix].location != NSNotFound)
     {
-        NSUInteger prefixLength = [prefix length];
-        NSUInteger suffixLength = [suffix length];
-        NSRange range = NSMakeRange(prefixLength, [filename length] - prefixLength - suffixLength);
-        return [filename substringWithRange:range];
+        // old code does not work if filename contains diacritics like "Fútbol"
+        return [[filename stringByReplacingOccurrencesOfString:prefix withString:@""] stringByReplacingOccurrencesOfString:suffix withString:@""];
     }
     return nil;
 }
